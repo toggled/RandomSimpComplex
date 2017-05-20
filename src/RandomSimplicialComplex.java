@@ -23,17 +23,17 @@ public class RandomSimplicialComplex extends SimplicialComplex implements Random
         root.set(0,this.numberOfVertices);
         int rank = this.numberOfVertices;
         while(rank>=1) {
-            System.out.println(rank);
-            System.out.println(bitsettoString(root));
+//            System.out.println(rank);
+//            System.out.println(bitsettoString(root));
 
             int taken = 0;
             int trials = 0;
             long numOfk_subsets = CombinatoricsUtils.binomialCoefficient(this.numberOfVertices, rank);
             BitSet rootclone = (BitSet) root.clone();
-            System.out.println("Sk: " +numOfk_subsets);
+//            System.out.println("Sk: " +numOfk_subsets);
             boolean stop = false;
             while (!stop){
-                System.out.println("consider : "+this.bitsettobitsequence(rootclone));
+//                System.out.println("consider : "+this.bitsettobitsequence(rootclone));
                 Random ran = new Random();
                 float u = ran.nextFloat();
                 if (u < this.prob) {
@@ -43,7 +43,7 @@ public class RandomSimplicialComplex extends SimplicialComplex implements Random
                     }
                 }
                 else{
-                    System.out.println("not taken");
+//                    System.out.println("not taken");
                 }
 
 

@@ -55,7 +55,7 @@ public class SimplicialComplex implements WriteHandler{
 
     @Override
     public void Write(String path){
-        String toappend = "("+Integer.toString(this.numberOfVertices)+","+Integer.toString(this.simplices.size())+")"+new DateTime( GregorianCalendar.getInstance().getTime() ).toString("yyyy-MM-dd HH:mm:ss");
+        String toappend = "("+Integer.toString(this.numberOfVertices)+","+Integer.toString(this.simplices.size())+")"+new DateTime( GregorianCalendar.getInstance().getTime() ).toString("yyyy-MM-dd HH-mm-ss");
 
 
         try {
