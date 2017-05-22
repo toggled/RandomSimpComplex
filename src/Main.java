@@ -6,8 +6,8 @@ public class Main {
 //        RandomSimplicialComplex rsc = new RandomSimplicialComplex(N,(float)1/N);
 //        rsc.generate();
 //        System.out.println(rsc);
-          String pathtowrite = "/Users/naheed/IdeaProjects/TD1/RandomSimpComplex/output";
-//        String pathtowrite = "C:\\RandomSimpComplex\\randsimpcomp\\RandomSimpComplex\\output";
+//          String pathtowrite = "/Users/naheed/IdeaProjects/TD1/RandomSimpComplex/output";
+        String pathtowrite = "C:\\RandomSimpComplex\\randsimpcomp\\RandomSimpComplex\\output";
 //        rsc.Write(pathtowrite);
           int N = 5;
 
@@ -57,20 +57,27 @@ public class Main {
 //        pac.runforp(100);
 //        pac.Writeprobvaryanalytics(pathtowrite);
 
-        SpernerFamilyAnalytics sfa = new SpernerFamilyAnalytics(N,(float)0.5);
-        sfa.setSimplextype("bottomup");
-        sfa.runTtimes(100);
-        System.out.println(sfa.maptoString());
+//        SpernerFamilyAnalytics sfa = new SpernerFamilyAnalytics(N,(float)0.5);
+//        sfa.setSimplextype("bottomup");
+//        sfa.runTtimes(100);
+//        System.out.println(sfa.maptoString());
 
 
         /**
          * Sperner family size , Varying probability analytics
          */
-        SpernerFamilyAnalytics sfa_varyp = new SpernerFamilyAnalytics(N);
-        sfa_varyp.runforp(100,new double[]{0,0.1,0.2,0.3,0.4,0.5,0.6,0.7,0.8,0.9,1});
-//        sfa_varyp.runforp(100,new double[]{1,0.9,0.8,0.7,0.6,0.5,0.4,0.3,0.2,0.1,0});
-        sfa_varyp.WritevarypSpernSize(pathtowrite);
+//        SpernerFamilyAnalytics sfa_varyp = new SpernerFamilyAnalytics(N);
+//        sfa_varyp.runforp(100,new double[]{0,0.1,0.2,0.3,0.4,0.5,0.6,0.7,0.8,0.9,1});
+////        sfa_varyp.runforp(100,new double[]{1,0.9,0.8,0.7,0.6,0.5,0.4,0.3,0.2,0.1,0});
+//        sfa_varyp.WritevarypSpernSize(pathtowrite);
 
-
+        String[] type = new String[]{"bottomup","topdown"};
+        for(String typ:type) {
+            int[] vertices_array = new int[]{5, 10, 15, 20, 25, 30};
+            Scalability sb = new Scalability(vertices_array, 0.0001, 1);
+            sb.setSimplextype(typ);
+            sb.runforN();
+            sb.WriteRuntimes(pathtowrite);
+        }
     }
 }

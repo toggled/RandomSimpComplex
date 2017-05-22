@@ -21,6 +21,7 @@ public class RandomSimplicialComplexBottomUp extends RandomSimplicialComplex {
 
     @Override
     public void generate() {
+        long startTime = System.nanoTime();
 //        System.out.println("Bottomup Gen");
         BitSet root = new BitSet(this.numberOfVertices);
 
@@ -87,6 +88,8 @@ public class RandomSimplicialComplexBottomUp extends RandomSimplicialComplex {
             this.numOfkSimplices[rank] = taken;
             rank++;
         }
+        long stopTime = System.nanoTime();
+        this.runtime = stopTime - startTime;
     }
 
     private boolean containsSubsetof(BitSet potentialsupset) {
@@ -95,6 +98,7 @@ public class RandomSimplicialComplexBottomUp extends RandomSimplicialComplex {
             if(isSubset(signaturebitset[i],potentialsupset) && signaturebitset[i].cardinality()!=0)
                 return true;
         for (BitSet potentialsubset:simplices ){
+//            System.out.println("ha ha ");
             if(isSubset(potentialsubset,potentialsupset))
                 return true;
         }

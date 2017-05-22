@@ -13,6 +13,8 @@ import java.util.*;
 public class Analytics implements WriteHandler{
     int N, Times;
     float p;
+
+    double meanruntime;
     double meanksimplices[];
     String analytic_repr = "";
     int interval;
@@ -24,21 +26,28 @@ public class Analytics implements WriteHandler{
     HyperGraph hg;
 
     String type=""; //
-
+    Analytics(){}
+    Analytics(float p, int Times){
+        this.p = p;
+        this.Times = Times;
+    }
     Analytics(int NumOfVertices, float probability){
         this.N = NumOfVertices;
         this.p = probability;
+        meanruntime = 0;
     }
 
     Analytics(int NumOfVertices){
         this.N = NumOfVertices;
         meanksimplices = new double[this.N+1];
+        meanruntime = 0;
     }
     Analytics(int NumberOfVertices, float probability, int numtimestorun){
         this.N = NumberOfVertices;
         this.Times = numtimestorun;
         this.p = probability;
         meanksimplices = new double[this.N+1];
+        meanruntime = 0;
     }
 
     void setSimplextype(String type){
@@ -63,19 +72,25 @@ public class Analytics implements WriteHandler{
             hg.generate();
             analytic_repr = hg.numofkhyperedgesAsString();
         }
-
+        else if(type.contains("baseh")) {
+            hg = new BaselineRandomHypergraph(this.N,this.p);
+            hg.generate();
+            analytic_repr = hg.numofkhyperedgesAsString();
+        }
 
     }
     void runTtimes(){
             meanksimplices = new double[this.N+1];
             analytic_repr = "";
             for (int t = 1; t <= Times; t++) {
+//                System.out.println("iteration: "+t);
                 if (type.contains("topdown")){
                     sc = new RandomSimplicialComplex(this.N, this.p);
                     sc.generate();
                     for (int i = 1; i <= this.N; i++) {
                         this.meanksimplices[i] += (double) sc.numOfkSimplices[i] / Times;
                     }
+                    meanruntime += (double)sc.runtime/Times;
                 }
                 else if(type.contains("bottomup")) {
                     sc = new RandomSimplicialComplexBottomUp(this.N, this.p);
@@ -83,6 +98,7 @@ public class Analytics implements WriteHandler{
                     for (int i = 1; i <= this.N; i++) {
                         this.meanksimplices[i] += (double) sc.numOfkSimplices[i] / Times;
                     }
+                    meanruntime += (double)sc.runtime/Times;
                 }
                 else if(type.contains("hg")) {
                     hg = new RandomHypergraph(this.N,this.p);
@@ -90,6 +106,15 @@ public class Analytics implements WriteHandler{
                     for (int i = 1; i <= this.N; i++) {
                         this.meanksimplices[i] += (double) hg.numOfkhyperedges[i] / Times;
                     }
+                    meanruntime += (double)hg.runtime/Times;
+                }
+                else if(type.contains("baseh")) {
+                    hg = new BaselineRandomHypergraph(this.N,this.p);
+                    hg.generate();
+                    for (int i = 1; i <= this.N; i++) {
+                        this.meanksimplices[i] += (double) hg.numOfkhyperedges[i] / Times;
+                    }
+                    meanruntime += (double)hg.runtime/Times;
                 }
 
             }
@@ -100,12 +125,20 @@ public class Analytics implements WriteHandler{
     void runuptoTtimes(){
         interval = Times/5;
         meanksimplicesuptoTtimes = new double[5][this.N + 1];
-        stringreprlist = new ArrayList<>(5);
+        stringreprlist = new ArrayList<>(5+1);
+
+        /* Adding all poissible k values */
+        String temp = "  ";
+        for (int i = 1; i <= this.N; i++) {
+            temp+=(Integer.valueOf(i)+" ");
+        }
+        stringreprlist.add(temp);
+
         for(int T = interval, idx = 0; T <= interval*5; T+=interval, idx++) {
             this.Times = interval;
             runTtimes();
             meanksimplicesuptoTtimes[idx] = Arrays.copyOf(meanksimplices,meanksimplices.length);
-            stringreprlist.add(this.analytic_repr);
+            stringreprlist.add(Integer.valueOf(T)+" "+this.analytic_repr);
         }
     }
 

@@ -19,6 +19,7 @@ public class RandomSimplicialComplex extends SimplicialComplex implements Random
         /**
          * Generate a random Simplicial Complex by traversing the Powerset lattice (under superset relation) top-down
          */
+        long startTime = System.nanoTime();
         BitSet root = new BitSet(this.numberOfVertices);
         root.set(0,this.numberOfVertices);
         int rank = this.numberOfVertices;
@@ -88,6 +89,8 @@ public class RandomSimplicialComplex extends SimplicialComplex implements Random
             rank--;
             root.flip(rank);
         }
+        long stopTime = System.nanoTime();
+        this.runtime = stopTime - startTime;
     }
 
     protected boolean isSubset(BitSet a, BitSet b){

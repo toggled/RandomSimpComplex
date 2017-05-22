@@ -17,12 +17,13 @@ public abstract class HyperGraph  implements WriteHandler {
     int numberOfVertices;
     List<BitSet> hyperedges;
     int numOfkhyperedges[];
-
+    long runtime;
     HyperGraph(){}
     HyperGraph(int N){
         this.numberOfVertices = N;
         hyperedges = new ArrayList<>();
         this.numOfkhyperedges = new int[N+1];
+        runtime = 0;
     }
     void addEdge(BitSet b){
         this.hyperedges.add(b);
