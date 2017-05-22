@@ -77,6 +77,12 @@ public class Analytics implements WriteHandler{
             hg.generate();
             analytic_repr = hg.numofkhyperedgesAsString();
         }
+        else if(type.contains("arsc")){ // arsc
+            sc = new AssociatedRandSimplicialComplex(this.N, this.p);
+            sc.generate();
+            analytic_repr = sc.numOfkSimplicesAsString();
+            SpernerFamilySize = sc.getSize();
+        }
 
     }
     void runTtimes(){
@@ -116,6 +122,13 @@ public class Analytics implements WriteHandler{
                     }
                     meanruntime += (double)hg.runtime/Times;
                 }
+                else if(type.contains("arsc")){ // arsc
+                    sc = new AssociatedRandSimplicialComplex(this.N, this.p);
+                    sc.generate();
+                    for (int i = 1; i <= this.N; i++) {
+                        this.meanksimplices[i] += (double) sc.numOfkSimplices[i] / Times;
+                    }
+                    meanruntime += (double)sc.runtime/Times;                }
 
             }
             for(int i = 1; i<=this.N; i ++)

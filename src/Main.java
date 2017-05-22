@@ -2,14 +2,18 @@ public class Main {
 
     public static void main(String[] args) {
 	// write your code here
-//        int N = 30;
+                  String pathtowrite = "/Users/naheed/IdeaProjects/TD1/RandomSimpComplex/output";
+//        String pathtowrite = "C:\\RandomSimpComplex\\randsimpcomp\\RandomSimpComplex\\output";
+//        int N = 5;
 //        RandomSimplicialComplex rsc = new RandomSimplicialComplex(N,(float)1/N);
 //        rsc.generate();
+//      AssociatedRandSimplicialComplex arsc = new AssociatedRandSimplicialComplex(N,(float)1/N) ;
+//      arsc.generate();
+//      arsc.Write(pathtowrite);
 //        System.out.println(rsc);
-//          String pathtowrite = "/Users/naheed/IdeaProjects/TD1/RandomSimpComplex/output";
-        String pathtowrite = "C:\\RandomSimpComplex\\randsimpcomp\\RandomSimpComplex\\output";
+
 //        rsc.Write(pathtowrite);
-          int N = 5;
+//          int N = 5;
 
 //        Analytics acs = new Analytics(N,(float)1/N,100);
 //        acs.runuptoTtimes();
@@ -71,13 +75,22 @@ public class Main {
 ////        sfa_varyp.runforp(100,new double[]{1,0.9,0.8,0.7,0.6,0.5,0.4,0.3,0.2,0.1,0});
 //        sfa_varyp.WritevarypSpernSize(pathtowrite);
 
-        String[] type = new String[]{"bottomup","topdown"};
+        /**
+         * Scalability test for Simplicial complex algorithms
+         */
+
+        String[] type = new String[]{"arsc","bottomup","topdown"};
         for(String typ:type) {
             int[] vertices_array = new int[]{5, 10, 15, 20, 25, 30};
-            Scalability sb = new Scalability(vertices_array, 0.0001, 1);
+            Scalability sb = new Scalability(vertices_array, new float[]{0.1f,0.01f,0.001f,0.0001f});
             sb.setSimplextype(typ);
-            sb.runforN();
-            sb.WriteRuntimes(pathtowrite);
+            sb.runforNrunforp(100);
+            sb.WriteforNforp(pathtowrite);
         }
+
+
+
+
+
     }
 }
