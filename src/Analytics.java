@@ -135,6 +135,7 @@ public class Analytics implements WriteHandler{
         stringreprlist.add(temp);
 
         for(int T = interval, idx = 0; T <= interval*5; T+=interval, idx++) {
+            System.out.println(this.type+" Running "+T +"times");
             this.Times = interval;
             runTtimes();
             meanksimplicesuptoTtimes[idx] = Arrays.copyOf(meanksimplices,meanksimplices.length);
