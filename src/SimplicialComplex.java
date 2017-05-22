@@ -9,13 +9,16 @@ import org.joda.time.DateTime;
 /**
  * Created by naheed on 5/17/17.
  */
-public class SimplicialComplex implements WriteHandler{
-    int numberOfVertices;
+
+public abstract class SimplicialComplex extends HyperGraph implements WriteHandler {
+
     ArrayList<BitSet> simplices;
     int numOfkSimplices[];
-    SimplicialComplex(){}
+    SimplicialComplex(){
+        super();
+    }
     SimplicialComplex(int N){
-        this.numberOfVertices = N;
+        super(N);
         simplices = new ArrayList<>();
         this.numOfkSimplices = new int[N+1];
     }
@@ -29,28 +32,24 @@ public class SimplicialComplex implements WriteHandler{
             s+=(bitsettoString(b)+"\n");
         return s;
     }
-    protected String bitsettoString(BitSet b){
+
+    public String numOfkSimplicesAsString(){
         /**
-         * Return comma-separated list of integer-labeled vertices i.e a hyperedge for instance, 1,2,5,8 or 0,3,4,6 etc.
+         * Return the String representation of numOfkSimplices[] array for analytic purposes
          */
-        String s = "";
-        for(int id = 0; id < this.numberOfVertices; id++)
-            if(b.get(id) == true)
-                s+=(String.valueOf(id)+",");
-        s = s.substring(0,s.length() - 1);
-        return s;
+        String repr_numksimp = "";
+        for(int i = 1; i<= this.numberOfVertices; i++){
+            repr_numksimp+= (Integer.toString(this.numOfkSimplices[i])+" ");
+        }
+        return repr_numksimp;
     }
 
-    protected String bitsettobitsequence(BitSet b){
+
+    int getSize(){
         /**
-         * Return the bitsequence (0110110 etc) representation of the bitset
+         * Return the Size of the "Simplicial complex"/"Sperner family"/Anti-chain
          */
-        StringBuilder s = new StringBuilder();
-        for( int i = b.length(); i >-1;  i-- )
-        {
-            s.append( b.get( i ) == true ? 1: 0 );
-        }
-        return s.toString();
+        return this.simplices.size();
     }
 
     @Override
@@ -73,4 +72,5 @@ public class SimplicialComplex implements WriteHandler{
             e.printStackTrace();
         }
     }
+    abstract void generate();
 }

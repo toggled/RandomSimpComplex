@@ -18,6 +18,18 @@ public class Analytics implements WriteHandler{
     int interval;
     double meanksimplicesuptoTtimes[][];
     ArrayList<String> stringreprlist;
+
+    int SpernerFamilySize;
+    SimplicialComplex sc;
+    HyperGraph hg;
+
+    String type=""; //
+
+    Analytics(int NumOfVertices, float probability){
+        this.N = NumOfVertices;
+        this.p = probability;
+    }
+
     Analytics(int NumOfVertices){
         this.N = NumOfVertices;
         meanksimplices = new double[this.N+1];
@@ -28,15 +40,58 @@ public class Analytics implements WriteHandler{
         this.p = probability;
         meanksimplices = new double[this.N+1];
     }
+
+    void setSimplextype(String type){
+        this.type = type;
+    }
+    void run_once(){
+        analytic_repr = "";
+        if(type.contains("topdown")) {
+            sc = new RandomSimplicialComplex(this.N, this.p);
+            sc.generate();
+            analytic_repr = sc.numOfkSimplicesAsString();
+            SpernerFamilySize = sc.getSize();
+        }
+        else if(type.contains("bottomup")) {
+            sc = new RandomSimplicialComplexBottomUp(this.N, this.p);
+            sc.generate();
+            analytic_repr = sc.numOfkSimplicesAsString();
+            SpernerFamilySize = sc.getSize();
+        }
+        else if(type.contains("hg")) {
+            hg = new RandomHypergraph(this.N,this.p);
+            hg.generate();
+            analytic_repr = hg.numofkhyperedgesAsString();
+        }
+
+
+    }
     void runTtimes(){
             meanksimplices = new double[this.N+1];
             analytic_repr = "";
             for (int t = 1; t <= Times; t++) {
-                RandomSimplicialComplex rsc = new RandomSimplicialComplex(this.N, this.p);
-                rsc.generate();
-                for (int i = 1; i <= this.N; i++) {
-                    this.meanksimplices[i] += (double) rsc.numOfkSimplices[i] / Times;
+                if (type.contains("topdown")){
+                    sc = new RandomSimplicialComplex(this.N, this.p);
+                    sc.generate();
+                    for (int i = 1; i <= this.N; i++) {
+                        this.meanksimplices[i] += (double) sc.numOfkSimplices[i] / Times;
+                    }
                 }
+                else if(type.contains("bottomup")) {
+                    sc = new RandomSimplicialComplexBottomUp(this.N, this.p);
+                    sc.generate();
+                    for (int i = 1; i <= this.N; i++) {
+                        this.meanksimplices[i] += (double) sc.numOfkSimplices[i] / Times;
+                    }
+                }
+                else if(type.contains("hg")) {
+                    hg = new RandomHypergraph(this.N,this.p);
+                    hg.generate();
+                    for (int i = 1; i <= this.N; i++) {
+                        this.meanksimplices[i] += (double) hg.numOfkhyperedges[i] / Times;
+                    }
+                }
+
             }
             for(int i = 1; i<=this.N; i ++)
                 analytic_repr+=Double.toString(this.meanksimplices[i])+" ";
@@ -56,7 +111,7 @@ public class Analytics implements WriteHandler{
 
     @Override
     public void Write(String filepath) {
-        String toappend = "Analytics("+Integer.toString(this.N)+","+Float.toString(this.p)+")"+new DateTime( GregorianCalendar.getInstance().getTime() ).toString("yyyy-MM-dd HH-mm-ss");
+        String toappend = type+"Analytics("+Integer.toString(this.N)+","+Float.toString(this.p)+")"+new DateTime( GregorianCalendar.getInstance().getTime() ).toString("yyyy-MM-dd HH-mm-ss");
 
         try {
             Files.write(Paths.get(filepath+"/"+toappend+".txt"),analytic_repr.getBytes());
@@ -66,7 +121,7 @@ public class Analytics implements WriteHandler{
     }
 
     public void WriteuptoTtimes(String filepath){
-        String toappend = "Analytics("+Integer.toString(this.N)+","+Float.toString(this.p)+")"+new DateTime( GregorianCalendar.getInstance().getTime() ).toString("yyyy-MM-dd HH-mm-ss");
+        String toappend = type+"Analytics("+Integer.toString(this.N)+","+Float.toString(this.p)+")"+new DateTime( GregorianCalendar.getInstance().getTime() ).toString("yyyy-MM-dd HH-mm-ss");
         Path p = Paths.get(filepath+"/"+toappend+".txt");
         Write(this.stringreprlist,p);
     }

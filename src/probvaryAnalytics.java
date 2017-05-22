@@ -1,7 +1,5 @@
 import org.joda.time.DateTime;
 
-import java.io.IOException;
-import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
 import java.util.ArrayList;
@@ -12,8 +10,12 @@ import java.util.GregorianCalendar;
  * Created by naheed on 5/19/17.
  */
 public class probvaryAnalytics extends Analytics{
+    /**
+     * For a fixed N and for each probability p \in {p_1,p_2,p_3,\dots,p_n}, run T times and collect analytics
+     */
     double prob[];
     double [][] meanksimplicesperp;
+
     probvaryAnalytics(int numofvertices, double[] p){
         super(numofvertices);
         prob = new double[p.length];
@@ -35,7 +37,7 @@ public class probvaryAnalytics extends Analytics{
         }
     }
     void Writeprobvaryanalytics(String filepath){
-        String toappend = "ProbVaryAnalytics("+Integer.toString(this.N)+","+Float.toString(this.p)+")"+new DateTime( GregorianCalendar.getInstance().getTime() ).toString("yyyy-MM-dd HH-mm-ss");
+        String toappend = type+"ProbVaryAnalytics("+Integer.toString(this.N)+","+Float.toString(this.p)+")"+new DateTime( GregorianCalendar.getInstance().getTime() ).toString("yyyy-MM-dd HH-mm-ss");
         Path p = Paths.get(filepath+"/"+toappend+".txt");
         Write(this.stringreprlist,p);
     }
