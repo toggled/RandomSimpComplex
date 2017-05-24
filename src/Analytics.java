@@ -24,6 +24,7 @@ public class Analytics implements WriteHandler{
     int SpernerFamilySize;
     SimplicialComplex sc;
     HyperGraph hg;
+    List <BitSet> tempor;
 
     String type=""; //
     Analytics(){}
@@ -73,6 +74,7 @@ public class Analytics implements WriteHandler{
             SpernerFamilySize = hg.getSize();
             System.out.println(hg.getSize());
             analytic_repr = hg.numofkhyperedgesAsString();
+            tempor = hg.hyperedges;
         }
         else if(type.contains("baseh")) {
             hg = new BaselineRandomHypergraph(this.N,this.p);
@@ -120,7 +122,7 @@ public class Analytics implements WriteHandler{
                         this.meanksimplices[i] += (double) hg.numOfkhyperedges[i] / Times;
                     }
                     meanruntime += (double)hg.runtime/Times;
-                    mean_maxksimplices[(hg.maxcardinality)] += (double)1/Times;
+                    mean_maxksimplices[(hg.maxcardinality)] += (double)100/Times;
                 }
                 else if(type.contains("baseh")) {
                     hg = new BaselineRandomHypergraph(this.N,this.p);
@@ -129,7 +131,7 @@ public class Analytics implements WriteHandler{
                         this.meanksimplices[i] += (double) hg.numOfkhyperedges[i] / Times;
                     }
                     meanruntime += (double)hg.runtime/Times;
-                    mean_maxksimplices[(hg.maxcardinality)] += (double)1/Times;
+                    mean_maxksimplices[(hg.maxcardinality)] += (double)100/Times;
                 }
                 else if(type.contains("arsc")) { // arsc
                     System.out.println(this.type + "isarsc");
@@ -139,7 +141,7 @@ public class Analytics implements WriteHandler{
                         this.meanksimplices[i] += (double) sc.numOfkSimplices[i] / Times;
                     }
                     meanruntime += (double) sc.runtime / Times;
-                    mean_maxksimplices[(sc.maxcardinality)] += (double) 1 / Times;
+                    mean_maxksimplices[(sc.maxcardinality)] += (double) 100 / Times;
                 }
             }
             String tempformaxcard = "";

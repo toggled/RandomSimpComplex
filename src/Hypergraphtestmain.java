@@ -5,7 +5,7 @@ public class Hypergraphtestmain {
     public static void main(String[] args){
         String pathtowrite = "/Users/naheed/IdeaProjects/TD1/RandomSimpComplex/output";
 //        String pathtowrite = "C:\\RandomSimpComplex\\randsimpcomp\\RandomSimpComplex\\output";
-        int N = 20;
+        int N = 5;
 //        RandomHypergraph rsc = new RandomHypergraph(N,(float)0.5);
 //        rsc.generate();
 //        rsc.Write(pathtowrite);

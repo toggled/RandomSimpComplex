@@ -27,8 +27,10 @@ public class RandomHypergraph extends HyperGraph {
         do{
             float u = rand.nextFloat();
             int s;
-            if(Math.abs(this.prob) < 0.0000000001)
+            if(Math.abs(this.prob) < 0.0000000000001) {
                 s = Integer.MAX_VALUE;
+                break;
+            }
             else if(Math.abs(this.prob - 1.0) <0.000000001)
                 s = 1;
             else

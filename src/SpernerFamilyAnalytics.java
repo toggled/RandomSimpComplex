@@ -34,10 +34,10 @@ public class SpernerFamilyAnalytics extends Analytics {
         probvarystrlist = new ArrayList<>();
         for (int i = 1; i<= T ; i ++){
             this.run_once();
-            System.out.println(i+" "+this.SpernerFamilySize);
+
             Double val;
-            if( (val = map.putIfAbsent(this.SpernerFamilySize,(double)1/T)) !=null ){
-                map.put(this.SpernerFamilySize,val + ((double)1/T));
+            if( (val = map.putIfAbsent(this.SpernerFamilySize,(double)100/T)) !=null ){
+                map.put(this.SpernerFamilySize,val + ((double)100/T));
             }
         }
 //        System.out.println(maptoString());
