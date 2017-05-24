@@ -15,6 +15,7 @@ public class AssociatedRandSimplicialComplex extends RandomSimplicialComplex {
     public void generate() {
         long startTime = System.nanoTime();
         container.generate();
+        System.out.println("The hypergraph: \n "+container.toString());
         Collections.sort(container.hyperedges, new Comparator<BitSet>() {
             @Override
             public int compare(BitSet bit2, BitSet bit1)

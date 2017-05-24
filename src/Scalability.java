@@ -47,6 +47,7 @@ public class Scalability extends Analytics {
         avgrntime_str = preamble+"\n"+avgrntime_str;
     }
     void runforNrunforp(int t){
+        System.out.println("running for: "+this.type);
         rep = new ArrayList<>();
         String preamble = "  ";
         for(Integer n:this.NArray)
@@ -62,6 +63,7 @@ public class Scalability extends Analytics {
                 this.N = NArray[j];
                 this.p = parray[i];
                 this.Times = t;
+                System.out.println(parray[i]+" "+NArray[j]+" ");
                 runTtimes();
                 avgrntime_str+=(Double.toString(this.meanruntime)+" ");
             }

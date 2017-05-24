@@ -79,18 +79,30 @@ public class Main {
          * Scalability test for Simplicial complex algorithms
          */
 
-        String[] type = new String[]{"arsc","bottomup","topdown"};
-        for(String typ:type) {
-            int[] vertices_array = new int[]{5, 10, 15, 20, 25, 30};
-            Scalability sb = new Scalability(vertices_array, new float[]{0.1f,0.01f,0.001f,0.0001f});
-            sb.setSimplextype(typ);
-            sb.runforNrunforp(100);
-            sb.WriteforNforp(pathtowrite);
-        }
+//        String[] type = new String[]{"arsc","bottomup","topdown"};
+//        for(String typ:type) {
+//            int[] vertices_array = new int[]{5, 10, 15, 20};
+//            Scalability sb = new Scalability(vertices_array, new float[]{0.1f,0.01f,0.001f,0.0001f});
+//            sb.setSimplextype(typ);
+//            sb.runforNrunforp(100);
+//            sb.WriteforNforp(pathtowrite);
+//        }
 
+/**
+ * Sperner family size , Varying probability analytics for all algo
+ */
+//        String[] type = new String[]{"arsc"};
+//        for(String typ:type) {
+//            SpernerFamilyAnalytics sfa_varyp = new SpernerFamilyAnalytics(5);
+//            sfa_varyp.setSimplextype(typ);
+//            sfa_varyp.runforp(5, new double[]{0.5});
+//            //        sfa_varyp.runforp(100,new double[]{1,0.9,0.8,0.7,0.6,0.5,0.4,0.3,0.2,0.1,0});
+//            sfa_varyp.WritevarypSpernSize(pathtowrite);
+//        }
 
-
-
-
+//        Analytics anal = new Analytics(10,(float)0.5,100);
+//        anal.setSimplextype("arsc");
+//        anal.runTtimes();
+//        anal.WriteuptoTtimes(pathtowrite);
     }
 }

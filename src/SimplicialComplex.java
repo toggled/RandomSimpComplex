@@ -14,17 +14,27 @@ public abstract class SimplicialComplex extends HyperGraph implements WriteHandl
 
     ArrayList<BitSet> simplices;
     int numOfkSimplices[];
+
     SimplicialComplex(){
         super();
     }
+
     SimplicialComplex(int N){
         super(N);
         simplices = new ArrayList<>();
         this.numOfkSimplices = new int[N+1];
+        this.maxcardinality = 0;
     }
+
     protected void addMaximalSimplex(BitSet simplex){
         simplices.add(simplex);
+        this.simplextotimemap.putIfAbsent(simplex,filtration++);
+        if(simplex.cardinality()>this.maxcardinality) {
+            maxcardinality = simplex.cardinality();
+            this.max = (BitSet) simplex.clone();
+        }
     }
+
     public String toString(){
         System.out.println("The simplicial complex: ");
         String s = "";

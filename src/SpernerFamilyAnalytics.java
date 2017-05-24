@@ -31,15 +31,17 @@ public class SpernerFamilyAnalytics extends Analytics {
         /**
          * Run Delta(n,p) , T times and log size of the simplices.
          */
+        probvarystrlist = new ArrayList<>();
         for (int i = 1; i<= T ; i ++){
             this.run_once();
-//            System.out.println(this.SpernerFamilySize);
+            System.out.println(i+" "+this.SpernerFamilySize);
             Double val;
             if( (val = map.putIfAbsent(this.SpernerFamilySize,(double)1/T)) !=null ){
                 map.put(this.SpernerFamilySize,val + ((double)1/T));
             }
         }
 //        System.out.println(maptoString());
+//        probvarystrlist.add(maptoString());
     }
 
     void runforp(int T, double[] prob){
@@ -47,6 +49,7 @@ public class SpernerFamilyAnalytics extends Analytics {
         arrayofMaps = new Map [prob.length];
 
         for(int i = 0; i<prob.length; i++) {
+            System.out.println(this.type+"-running for: "+prob[i]);
             this.p = (float) prob[i];
             map = new TreeMap<>();
             spernerfamily_sizes= "";
@@ -71,7 +74,7 @@ public class SpernerFamilyAnalytics extends Analytics {
             }
         }
 
-        probvarystrlist.add("  "+getkeyasString(arrayofMaps[0]));
+        probvarystrlist.add(" "+getkeyasString(arrayofMaps[0]));
         for(int i = 0; i<prob.length; i++) {
             String tempstrrep = Double.toString(prob[i])+" ";
             tempstrrep+=getvalueasString(arrayofMaps[i]);
@@ -104,7 +107,7 @@ public class SpernerFamilyAnalytics extends Analytics {
         return valstr;
     }
     public void WritevarypSpernSize(String filepath){
-        String toappend = "SpernerFamilyAnalytics("+Integer.toString(this.N)+")"+new DateTime( GregorianCalendar.getInstance().getTime() ).toString("yyyy-MM-dd HH-mm-ss");
+        String toappend = this.type+"SpernerFamilyAnalytics("+Integer.toString(this.N)+")"+new DateTime( GregorianCalendar.getInstance().getTime() ).toString("yyyy-MM-dd HH-mm-ss");
         Path path = Paths.get(filepath+"/"+toappend+".txt");
         Write(this.probvarystrlist,path);
     }

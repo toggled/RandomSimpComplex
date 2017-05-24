@@ -5,10 +5,7 @@ import java.nio.charset.Charset;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
-import java.util.ArrayList;
-import java.util.BitSet;
-import java.util.GregorianCalendar;
-import java.util.List;
+import java.util.*;
 
 /**
  * Created by naheed on 5/21/17.
@@ -18,15 +15,29 @@ public abstract class HyperGraph  implements WriteHandler {
     List<BitSet> hyperedges;
     int numOfkhyperedges[];
     long runtime;
-    HyperGraph(){}
+    HashMap <BitSet,Integer> simplextotimemap;
+    int filtration;
+    BitSet max;
+    int maxcardinality = 0;
+    HyperGraph(){
+        this.simplextotimemap = new HashMap<>();
+        filtration = 0;
+    }
     HyperGraph(int N){
+        this.simplextotimemap = new HashMap<>();
         this.numberOfVertices = N;
         hyperedges = new ArrayList<>();
         this.numOfkhyperedges = new int[N+1];
         runtime = 0;
+        filtration = 0;
     }
     void addEdge(BitSet b){
         this.hyperedges.add(b);
+        simplextotimemap.putIfAbsent(b,filtration++);
+        if(b.cardinality()>maxcardinality) {
+            maxcardinality = b.cardinality();
+            max = (BitSet) b.clone();
+        }
     }
     public String toString(){
         System.out.println("The simplicial complex: ");

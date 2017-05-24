@@ -70,11 +70,14 @@ public class Analytics implements WriteHandler{
         else if(type.contains("hg")) {
             hg = new RandomHypergraph(this.N,this.p);
             hg.generate();
+            SpernerFamilySize = hg.getSize();
+            System.out.println(hg.getSize());
             analytic_repr = hg.numofkhyperedgesAsString();
         }
         else if(type.contains("baseh")) {
             hg = new BaselineRandomHypergraph(this.N,this.p);
             hg.generate();
+            SpernerFamilySize = hg.getSize();
             analytic_repr = hg.numofkhyperedgesAsString();
         }
         else if(type.contains("arsc")){ // arsc
@@ -82,12 +85,15 @@ public class Analytics implements WriteHandler{
             sc.generate();
             analytic_repr = sc.numOfkSimplicesAsString();
             SpernerFamilySize = sc.getSize();
+            System.out.println( "AssociatedSC: \n "+sc.toString());
+            System.out.println(" -- - - - -- - - - - - - -");
         }
 
     }
     void runTtimes(){
             meanksimplices = new double[this.N+1];
             analytic_repr = "";
+            double mean_maxksimplices[] = new double[this.N + 1];
             for (int t = 1; t <= Times; t++) {
 //                System.out.println("iteration: "+t);
                 if (type.contains("topdown")){
@@ -105,6 +111,7 @@ public class Analytics implements WriteHandler{
                         this.meanksimplices[i] += (double) sc.numOfkSimplices[i] / Times;
                     }
                     meanruntime += (double)sc.runtime/Times;
+
                 }
                 else if(type.contains("hg")) {
                     hg = new RandomHypergraph(this.N,this.p);
@@ -113,6 +120,7 @@ public class Analytics implements WriteHandler{
                         this.meanksimplices[i] += (double) hg.numOfkhyperedges[i] / Times;
                     }
                     meanruntime += (double)hg.runtime/Times;
+                    mean_maxksimplices[(hg.maxcardinality)] += (double)1/Times;
                 }
                 else if(type.contains("baseh")) {
                     hg = new BaselineRandomHypergraph(this.N,this.p);
@@ -121,18 +129,31 @@ public class Analytics implements WriteHandler{
                         this.meanksimplices[i] += (double) hg.numOfkhyperedges[i] / Times;
                     }
                     meanruntime += (double)hg.runtime/Times;
+                    mean_maxksimplices[(hg.maxcardinality)] += (double)1/Times;
                 }
-                else if(type.contains("arsc")){ // arsc
+                else if(type.contains("arsc")) { // arsc
+                    System.out.println(this.type + "isarsc");
                     sc = new AssociatedRandSimplicialComplex(this.N, this.p);
                     sc.generate();
                     for (int i = 1; i <= this.N; i++) {
                         this.meanksimplices[i] += (double) sc.numOfkSimplices[i] / Times;
                     }
-                    meanruntime += (double)sc.runtime/Times;                }
-
+                    meanruntime += (double) sc.runtime / Times;
+                    mean_maxksimplices[(sc.maxcardinality)] += (double) 1 / Times;
+                }
             }
-            for(int i = 1; i<=this.N; i ++)
+            String tempformaxcard = "";
+            for(int i = 1; i<=this.N; i ++){
                 analytic_repr+=Double.toString(this.meanksimplices[i])+" ";
+                tempformaxcard+=Double.toString(mean_maxksimplices[i])+" ";
+            }
+        stringreprlist = new ArrayList<>();
+        String temp = "";
+        for(int i = 1; i<=this.N; i ++){
+            temp+=(String.valueOf(i)+" ");
+        }
+        stringreprlist.add(temp);
+        stringreprlist.add(tempformaxcard);
     }
 
     void runuptoTtimes(){
