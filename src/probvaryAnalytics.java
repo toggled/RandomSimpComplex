@@ -27,6 +27,11 @@ public class probvaryAnalytics extends Analytics{
         /*
         run T times for each probability value
          */
+        String preamble = " ";
+        for (int i = 0; i <= this.N ; i++) {
+            preamble+= (" "+Integer.valueOf(i));
+        }
+        stringreprlist.add(preamble);
 
         for(int i = 0; i<prob.length; i++){
             this.p = (float)prob[i];

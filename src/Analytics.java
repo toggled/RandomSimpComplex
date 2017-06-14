@@ -145,17 +145,17 @@ public class Analytics implements WriteHandler{
                 }
             }
             String tempformaxcard = "";
-            for(int i = 1; i<=this.N; i ++){
+            for(int i = 0; i<=this.N; i ++){
                 analytic_repr+=Double.toString(this.meanksimplices[i])+" ";
                 tempformaxcard+=Double.toString(mean_maxksimplices[i])+" ";
             }
-        stringreprlist = new ArrayList<>();
-        String temp = "";
-        for(int i = 1; i<=this.N; i ++){
-            temp+=(String.valueOf(i)+" ");
-        }
-        stringreprlist.add(temp);
-        stringreprlist.add(tempformaxcard);
+//        stringreprlist = new ArrayList<>();
+//        String temp = "";
+//        for(int i = 1; i<=this.N; i ++){
+//            temp+=(String.valueOf(i)+" ");
+//        }
+//        stringreprlist.add(temp);
+//        stringreprlist.add(tempformaxcard);
     }
 
     void runuptoTtimes(){

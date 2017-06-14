@@ -4,7 +4,7 @@ public class Main {
 	// write your code here
                   String pathtowrite = "/Users/naheed/IdeaProjects/TD1/RandomSimpComplex/output";
 //        String pathtowrite = "C:\\RandomSimpComplex\\randsimpcomp\\RandomSimpComplex\\output";
-//        int N = 5;
+        int N = 10;
 //        RandomSimplicialComplex rsc = new RandomSimplicialComplex(N,(float)1/N);
 //        rsc.generate();
 //      AssociatedRandSimplicialComplex arsc = new AssociatedRandSimplicialComplex(N,(float)1/N) ;
@@ -71,8 +71,8 @@ public class Main {
          * Sperner family size , Varying probability analytics
          */
 //        SpernerFamilyAnalytics sfa_varyp = new SpernerFamilyAnalytics(N);
+//        sfa_varyp.setSimplextype("arsc");
 //        sfa_varyp.runforp(100,new double[]{0,0.1,0.2,0.3,0.4,0.5,0.6,0.7,0.8,0.9,1});
-////        sfa_varyp.runforp(100,new double[]{1,0.9,0.8,0.7,0.6,0.5,0.4,0.3,0.2,0.1,0});
 //        sfa_varyp.WritevarypSpernSize(pathtowrite);
 
         /**
@@ -91,18 +91,20 @@ public class Main {
 /**
  * Sperner family size , Varying probability analytics for all algo
  */
-//        String[] type = new String[]{"arsc"};
-//        for(String typ:type) {
-//            SpernerFamilyAnalytics sfa_varyp = new SpernerFamilyAnalytics(5);
-//            sfa_varyp.setSimplextype(typ);
-//            sfa_varyp.runforp(5, new double[]{0.5});
-//            //        sfa_varyp.runforp(100,new double[]{1,0.9,0.8,0.7,0.6,0.5,0.4,0.3,0.2,0.1,0});
-//            sfa_varyp.WritevarypSpernSize(pathtowrite);
-//        }
+        String[] type = new String[]{"arsc"};
+        for(String typ:type) {
+            SpernerFamilyAnalytics sfa_varyp = new SpernerFamilyAnalytics(10);
+            sfa_varyp.setSimplextype(typ);
+            sfa_varyp.runforp(100, new double[]{0,0.1,0.2,0.3,0.4,0.5,0.6,0.7,0.8,0.9,1});
+            //        sfa_varyp.runforp(100,new double[]{1,0.9,0.8,0.7,0.6,0.5,0.4,0.3,0.2,0.1,0});
+            sfa_varyp.WritevarypSpernSize(pathtowrite);
+        }
 
-//        Analytics anal = new Analytics(10,(float)0.5,100);
-//        anal.setSimplextype("arsc");
-//        anal.runTtimes();
-//        anal.WriteuptoTtimes(pathtowrite);
+//                probvaryAnalytics pac = new probvaryAnalytics(N,new double[]{0,0.1,0.2,0.3,0.4,0.5,0.6,0.7,0.8,0.9,1});
+//        pac.setSimplextype("arsc");
+//        pac.runforp(100);
+//        pac.Writeprobvaryanalytics(pathtowrite);
+
+//
     }
 }
