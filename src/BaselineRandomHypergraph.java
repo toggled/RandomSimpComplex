@@ -8,6 +8,9 @@ import java.util.Random;
 
 public class BaselineRandomHypergraph  extends HyperGraph {
     float prob;
+    BaselineRandomHypergraph(int N){
+        super(N);
+    }
     BaselineRandomHypergraph(int N, float p){
         super(N);
         this.prob = p;

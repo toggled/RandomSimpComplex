@@ -5,7 +5,7 @@ public class Hypergraphtestmain {
     public static void main(String[] args){
         String pathtowrite = "/Users/naheed/IdeaProjects/TD1/RandomSimpComplex/output";
 //        String pathtowrite = "C:\\RandomSimpComplex\\randsimpcomp\\RandomSimpComplex\\output";
-        int N = 5;
+        int N = 20;
 //        RandomHypergraph rsc = new RandomHypergraph(N,(float)0.5);
 //        rsc.generate();
 //        rsc.Write(pathtowrite);
@@ -31,11 +31,11 @@ public class Hypergraphtestmain {
         /**
          * k-subset test , Varying probability analytics
          */
-//        SpernerFamilyAnalytics sfa_varyp = new SpernerFamilyAnalytics(N);
-//        sfa_varyp.setSimplextype("hg");
-//        sfa_varyp.runforp(100,new double[]{0,0.1,0.2,0.3,0.4,0.5,0.6,0.7,0.8,0.9,1});
-////        sfa_varyp.runforp(100,new double[]{1,0.9,0.8,0.7,0.6,0.5,0.4,0.3,0.2,0.1,0});
-//        sfa_varyp.WritevarypSpernSize(pathtowrite);
+        SpernerFamilyAnalytics sfa_varyp = new SpernerFamilyAnalytics(N);
+        sfa_varyp.setSimplextype("hg");
+        sfa_varyp.runforp(10000,new double[]{0,0.1,0.2,0.3,0.4,0.5,0.6,0.7,0.8,0.9,1});
+//        sfa_varyp.runforp(100,new double[]{1,0.9,0.8,0.7,0.6,0.5,0.4,0.3,0.2,0.1,0});
+        sfa_varyp.WritevarypSpernSize(pathtowrite);
 
         /**
          * Scalability test for baseline hypergraph and Z-algorithm
@@ -57,10 +57,10 @@ public class Hypergraphtestmain {
 //            sb.WriteforNforp(pathtowrite);
 //        }
 
-        N = 20;
-        probvaryAnalytics pac = new probvaryAnalytics(N,new double[]{0,0.1f,0.2f,0.3f,0.4f,0.5f,0.6f,0.7f,0.8f,0.9f,1});
-        pac.setSimplextype("hg");
-        pac.runforp(100);
-        pac.Writeprobvaryanalytics(pathtowrite);
+//        N = 20;
+//        probvaryAnalytics pac = new probvaryAnalytics(N,new double[]{0,0.1f,0.2f,0.3f,0.4f,0.5f,0.6f,0.7f,0.8f,0.9f,1});
+//        pac.setSimplextype("hg");
+//        pac.runforp(100);
+//        pac.Writeprobvaryanalytics(pathtowrite);
     }
 }

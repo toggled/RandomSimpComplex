@@ -17,6 +17,7 @@ public class Analytics implements WriteHandler{
     double meanruntime;
     double meanksimplices[];
     String analytic_repr = "";
+    String tempformaxcard = "";
     int interval;
     double meanksimplicesuptoTtimes[][];
     ArrayList<String> stringreprlist;
@@ -56,6 +57,7 @@ public class Analytics implements WriteHandler{
     }
     void run_once(){
         analytic_repr = "";
+        tempformaxcard = "";
         if(type.contains("topdown")) {
             sc = new RandomSimplicialComplex(this.N, this.p);
             sc.generate();
@@ -88,6 +90,14 @@ public class Analytics implements WriteHandler{
             analytic_repr = sc.numOfkSimplicesAsString();
             SpernerFamilySize = sc.getSize();
             System.out.println( "AssociatedSC: \n "+sc.toString());
+            System.out.println(" -- - - - -- - - - - - - -");
+        }
+        else if(type.contains("dynasc")){
+            sc = new DynamicprobRandSimpComplex(this.N, this.p);
+            sc.generate();
+            analytic_repr = sc.numOfkSimplicesAsString();
+            SpernerFamilySize = sc.getSize();
+            System.out.println( "Dynarsc: \n "+sc.toString());
             System.out.println(" -- - - - -- - - - - - - -");
         }
 
@@ -143,41 +153,45 @@ public class Analytics implements WriteHandler{
                     meanruntime += (double) sc.runtime / Times;
                     mean_maxksimplices[(sc.maxcardinality)] += (double) 100 / Times;
                 }
+                else if(type.contains("dynasc")) { // arsc
+                    System.out.println(this.type + "isarsc");
+                    sc = new DynamicprobRandSimpComplex(this.N, this.p);
+                    sc.generate();
+                    for (int i = 1; i <= this.N; i++) {
+                        this.meanksimplices[i] += (double) sc.numOfkSimplices[i] / Times;
+                    }
+                    meanruntime += (double) sc.runtime / Times;
+                    mean_maxksimplices[(sc.maxcardinality)] += (double) 100 / Times;
+                }
+
             }
-            String tempformaxcard = "";
+            tempformaxcard = "";
             for(int i = 0; i<=this.N; i ++){
                 analytic_repr+=Double.toString(this.meanksimplices[i])+" ";
                 tempformaxcard+=Double.toString(mean_maxksimplices[i])+" ";
             }
-//        stringreprlist = new ArrayList<>();
-//        String temp = "";
-//        for(int i = 1; i<=this.N; i ++){
-//            temp+=(String.valueOf(i)+" ");
+    }
+
+//    void runuptoTtimes(){
+//        interval = Times/5;
+//        meanksimplicesuptoTtimes = new double[5][this.N + 1];
+//        stringreprlist = new ArrayList<>(5+1);
+//
+//        /* Adding all poissible k values */
+//        String temp = "  ";
+//        for (int i = 1; i <= this.N; i++) {
+//            temp+=(Integer.valueOf(i)+" ");
 //        }
 //        stringreprlist.add(temp);
-//        stringreprlist.add(tempformaxcard);
-    }
-
-    void runuptoTtimes(){
-        interval = Times/5;
-        meanksimplicesuptoTtimes = new double[5][this.N + 1];
-        stringreprlist = new ArrayList<>(5+1);
-
-        /* Adding all poissible k values */
-        String temp = "  ";
-        for (int i = 1; i <= this.N; i++) {
-            temp+=(Integer.valueOf(i)+" ");
-        }
-        stringreprlist.add(temp);
-
-        for(int T = interval, idx = 0; T <= interval*5; T+=interval, idx++) {
-            System.out.println(this.type+" Running "+T +"times");
-            this.Times = interval;
-            runTtimes();
-            meanksimplicesuptoTtimes[idx] = Arrays.copyOf(meanksimplices,meanksimplices.length);
-            stringreprlist.add(Integer.valueOf(T)+" "+this.analytic_repr);
-        }
-    }
+//
+//        for(int T = interval, idx = 0; T <= interval*5; T+=interval, idx++) {
+//            System.out.println(this.type+" Running "+T +"times");
+//            this.Times = interval;
+//            runTtimes();
+//            meanksimplicesuptoTtimes[idx] = Arrays.copyOf(meanksimplices,meanksimplices.length);
+//            stringreprlist.add(Integer.valueOf(T)+" "+this.analytic_repr);
+//        }
+//    }
 
     @Override
     public void Write(String filepath) {
@@ -190,11 +204,11 @@ public class Analytics implements WriteHandler{
         }
     }
 
-    public void WriteuptoTtimes(String filepath){
-        String toappend = type+"Analytics("+Integer.toString(this.N)+","+Float.toString(this.p)+")"+new DateTime( GregorianCalendar.getInstance().getTime() ).toString("yyyy-MM-dd HH-mm-ss");
-        Path p = Paths.get(filepath+"/"+toappend+".txt");
-        Write(this.stringreprlist,p);
-    }
+//    public void WriteuptoTtimes(String filepath){
+//        String toappend = type+"Analytics("+Integer.toString(this.N)+","+Float.toString(this.p)+")"+new DateTime( GregorianCalendar.getInstance().getTime() ).toString("yyyy-MM-dd HH-mm-ss");
+//        Path p = Paths.get(filepath+"/"+toappend+".txt");
+//        Write(this.stringreprlist,p);
+//    }
 
     @Override
     public void Write(List<String> linestowrite, Path filepath) {

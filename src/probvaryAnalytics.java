@@ -41,9 +41,34 @@ public class probvaryAnalytics extends Analytics{
             stringreprlist.add(Float.toString(this.p)+" "+this.analytic_repr);
         }
     }
+
+    void maxKrunforp(int T){
+        /*
+        run T times for each probability value
+         */
+
+
+        String temp = "  ";
+        for(int i = 0; i<=this.N; i ++){
+            temp+=(String.valueOf(i)+" ");
+        }
+        stringreprlist.add(temp);
+
+        for(int i = 0; i<prob.length; i++){
+            this.p = (float)prob[i];
+            this.Times = T;
+            this.runTtimes();
+            meanksimplicesperp[i] = Arrays.copyOf(meanksimplices,meanksimplices.length);
+
+            stringreprlist.add(Float.toString(this.p)+" "+this.tempformaxcard);
+        }
+    }
+
+
     void Writeprobvaryanalytics(String filepath){
         String toappend = type+"ProbVaryAnalytics("+Integer.toString(this.N)+","+Float.toString(this.p)+")"+new DateTime( GregorianCalendar.getInstance().getTime() ).toString("yyyy-MM-dd HH-mm-ss");
         Path p = Paths.get(filepath+"/"+toappend+".txt");
         Write(this.stringreprlist,p);
     }
+
 }
