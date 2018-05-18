@@ -8,20 +8,28 @@ import java.util.Comparator;
 
 public class AssociatedRandSimplicialComplex extends RandomSimplicialComplex {
     RandomHypergraph container;
-    AssociatedRandSimplicialComplex(int N, float p) {
+    AssociatedRandSimplicialComplex(int N, double p) {
         super(N, p);
         container = new RandomHypergraph(N,p);
     }
     public void generate() {
         long startTime = System.nanoTime();
         container.generate();
-        System.out.println("The hypergraph: \n "+container.toString());
+//        System.out.println("The hypergraph: \n "+container.toString());
         Collections.sort(container.hyperedges, new Comparator<BitSet>() {
             @Override
-            public int compare(BitSet bit2, BitSet bit1)
+            public int compare(BitSet lhs, BitSet rhs)
             {
                 // sort in descending order of bitset cardinality (number of 1's)
-                return  bit1.cardinality() - bit2.cardinality();
+//                return  bit1.cardinality() - bit2.cardinality();
+                if (lhs.equals(rhs)) return 0;
+                BitSet xor = (BitSet)lhs.clone();
+                xor.xor(rhs);
+                int firstDifferent = xor.length()-1;
+                if(firstDifferent==-1)
+                    return 0;
+
+                return rhs.get(firstDifferent) ? 1 : -1;
             }
         });
 
