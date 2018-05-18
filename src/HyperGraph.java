@@ -19,9 +19,11 @@ public abstract class HyperGraph  implements WriteHandler {
     int filtration;
     BitSet max;
     int maxcardinality = 0;
+    String stringrep = null;
+
     HyperGraph(){
         this.simplextotimemap = new HashMap<>();
-        filtration = 0;
+        filtration = 1;
     }
     HyperGraph(int N){
         this.simplextotimemap = new HashMap<>();
@@ -29,7 +31,7 @@ public abstract class HyperGraph  implements WriteHandler {
         hyperedges = new ArrayList<>();
         this.numOfkhyperedges = new int[N+1];
         runtime = 0;
-        filtration = 0;
+        filtration = 1;
     }
     void addEdge(BitSet b){
         this.hyperedges.add(b);
@@ -39,12 +41,15 @@ public abstract class HyperGraph  implements WriteHandler {
             max = (BitSet) b.clone();
         }
     }
+
     public String toString(){
-        System.out.println("The simplicial complex: ");
-        String s = "";
-        for(BitSet b:hyperedges)
-            s+=(bitsettoString(b)+"\n");
-        return s;
+//        System.out.println("The simplicial complex: ");
+        if (stringrep == null) {
+           stringrep = "";
+            for (BitSet b : hyperedges)
+                stringrep += (bitsettoString(b) + "/");
+        }
+        return stringrep;
     }
 
     String numofkhyperedgesAsString(){
@@ -59,25 +64,31 @@ public abstract class HyperGraph  implements WriteHandler {
         /**
          * Return comma-separated list of integer-labeled vertices i.e a hyperedge for instance, 1,2,5,8 or 0,3,4,6 etc.
          */
+//        String s = "";
+//        for(int id = 0; id < this.numberOfVertices; id++)
+//            if(b.get(id) == true)
+//                s+=(String.valueOf(id)+",");
+//        s = s.substring(0,s.length()-1);
+//        return s;
         String s = "";
-        for(int id = 0; id < this.numberOfVertices; id++)
+        for(int id = this.numberOfVertices-1; id >-1 ; id--)
             if(b.get(id) == true)
                 s+=(String.valueOf(id)+",");
-        s = s.substring(0,s.length() - 1);
+        s = s.substring(0,s.length()-1);
         return s;
     }
 
-    protected String bitsettobitsequence(BitSet b){
-        /**
-         * Return the bitsequence (0110110 etc) representation of the bitset
-         */
-        StringBuilder s = new StringBuilder();
-        for( int i = b.length(); i >-1;  i-- )
-        {
-            s.append( b.get( i ) == true ? 1: 0 );
-        }
-        return s.toString();
-    }
+//    protected String bitsettobitsequence(BitSet b){
+//        /**
+//         * Return the bitsequence (0110110 etc) representation of the bitset
+//         */
+//        StringBuilder s = new StringBuilder();
+//        for( int i = b.length(); i >-1;  i-- )
+//        {
+//            s.append( b.get( i ) == true ? 1: 0 );
+//        }
+//        return s.toString();
+//    }
 
     int getSize(){
         /**
