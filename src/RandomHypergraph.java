@@ -7,8 +7,8 @@ import java.util.Random;
  */
 
 public class RandomHypergraph extends HyperGraph {
-    float prob;
-    RandomHypergraph(int N, float p){
+    double prob;
+    RandomHypergraph(int N, double p){
         super(N);
         this.prob = p;
     }
@@ -47,7 +47,7 @@ public class RandomHypergraph extends HyperGraph {
                 /*
                         Instead of storing hyperedges as set of labels,store them as bitset
                       */
-                this.hyperedges.add(Xnext);
+                addEdge(Xnext);
                 this.numOfkhyperedges[Xnext.cardinality()]++;
             }
             Xi = (BitSet)Xnext.clone();
