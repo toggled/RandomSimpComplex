@@ -8,8 +8,8 @@ import org.apache.commons.math3.exception.MathArithmeticException;
 import org.apache.commons.math3.util.CombinatoricsUtils;
 
 public class RandomSimplicialComplex extends SimplicialComplex implements RandomASCGenerator{
-    float prob;
-    RandomSimplicialComplex(int N, float p){
+    double prob;
+    RandomSimplicialComplex(int N, double p){
         super(N);
         this.prob = p;
     }
