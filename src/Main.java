@@ -2,7 +2,7 @@ public class Main {
 
     public static void main(String[] args) {
 	// write your code here
-                  String pathtowrite = "/Users/naheed/IdeaProjects/TD1/RandomSimpComplex/output";
+                  String pathtowrite = "/Users/naheed/IdeaProjects/TD1/RandomSimpComplex/newout";
 //        String pathtowrite = "C:\\RandomSimpComplex\\randsimpcomp\\RandomSimpComplex\\output";
         int N = 20;
 //        RandomSimplicialComplex rsc = new RandomSimplicialComplex(N,(float)1/N);
@@ -110,33 +110,44 @@ public class Main {
 
         //Check an instance of the algorithm
 
-//        DynamicprobRandSimpComplex dynarsc = new DynamicprobRandSimpComplex(N,(float)0.1) ;
+//        DynamicprobRandSimpComplex dynarsc = new DynamicprobRandSimpComplex(N,(float)1) ;
 //        dynarsc.generate();
 //        dynarsc.Write(pathtowrite);
 //        System.out.println(dynarsc);
 
-        String[] type = new String[]{"arsc","dynasc"};
+
+//        String[] type = new String[]{"hg","dynasc","arsc"};
+        String[] type = new String[]{"clique","neigh"};
         for(String typ:type) {
-            // length of sperner family vs Number of sperner family
+////             number of simplex vs size of a simplex [expt 1]
             probvaryAnalytics pac = new probvaryAnalytics(N, new double[]{0, 0.1, 0.2, 0.3, 0.4, 0.5, 0.6, 0.7, 0.8, 0.9, 1});
             pac.setSimplextype(typ);
-            pac.runforp(100);
+            pac.runforp(1000);
             pac.Writeprobvaryanalytics(pathtowrite);
-
-
-            // number of simplicial complex vs size of the simplex
+//
+//
+////             number of simplicial complex vs size of it [expt 3]
                 SpernerFamilyAnalytics sfa_varyp = new SpernerFamilyAnalytics(N);
                 sfa_varyp.setSimplextype(typ);
-                //            sfa_varyp.runforp(10000, new double[]{0,0.5,1});
-                sfa_varyp.runforp(6000, new double[]{0.9, 0.8, 0.7, 0.6, 0.5, 0.4, 0.3, 0.2, 0.1});
+                //sfa_varyp.runforp(10000, new double[]{0,0.5,1});
+                sfa_varyp.runforp(1000, new double[]{0, 0.1, 0.2, 0.3, 0.4, 0.5, 0.6, 0.7, 0.8, 0.9, 1});
                 sfa_varyp.WritevarypSpernSize(pathtowrite);
 
 
-            // Number of simplicial complex vs size of the largest maximal face
-            pac = new probvaryAnalytics(N, new double[]{0, 0.1, 0.2, 0.3, 0.4, 0.5, 0.6, 0.7, 0.8, 0.9, 1});
-            pac.setSimplextype(typ);
-            pac.maxKrunforp(1000);
-            pac.Writeprobvaryanalytics(pathtowrite);
+//             Number of simplicial complex vs size of the largest maximal face [expt 2]
+            probvaryAnalytics  pacc = new probvaryAnalytics(N, new double[]{0, 0.1, 0.2, 0.3, 0.4, 0.5, 0.6, 0.7, 0.8, 0.9, 1});
+            pacc.setSimplextype(typ);
+            pacc.maxKrunforp(1000);
+            pacc.Writeprobvaryanalytics(pathtowrite);
+
+//            RandCliqueComplex rcc = new RandCliqueComplex(N,(float).5) ;
+//            rcc.generate();
+//            System.out.println(rcc.simplices.size());
+
+//            RandNeighComplex rcc = new RandNeighComplex(N,(float).5) ;
+//            rcc.generate();
+//            System.out.println(rcc.simplices.size());
+//        System.out.println(rcc.graph.toString());
         }
     }
 }
