@@ -38,7 +38,7 @@ public class HypergraphtoStream {
                     if(subst.size() > 1 && !stream.containsElement(new Simplex(intArray))){
 
                         stream.addElement(intArray, filtrationofb);
-                        System.out.println("Adding: "+subst);
+                        //System.out.println("Adding: "+subst);
                     }
                 }
                 //stream.addElement(elem, filtrationofb);
