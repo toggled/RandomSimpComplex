@@ -97,8 +97,20 @@ public class Analytics implements WriteHandler{
             sc.generate();
             analytic_repr = sc.numOfkSimplicesAsString();
             SpernerFamilySize = sc.getSize();
-            System.out.println( "Dynarsc: \n "+sc.toString());
-            System.out.println(" -- - - - -- - - - - - - -");
+//            System.out.println( "Dynarsc: \n "+sc.toString());
+//            System.out.println(" -- - - - -- - - - - - - -");
+        }
+        else if(type.contains("clique")){
+            sc = new RandCliqueComplex(this.N, this.p);
+            sc.generate();
+            analytic_repr = sc.numOfkSimplicesAsString();
+            SpernerFamilySize = sc.getSize();
+        }
+        else if(type.contains("neigh")){
+            sc = new RandNeighComplex(this.N, this.p);
+            sc.generate();
+            analytic_repr = sc.numOfkSimplicesAsString();
+            SpernerFamilySize = sc.getSize();
         }
 
     }
@@ -107,7 +119,7 @@ public class Analytics implements WriteHandler{
             analytic_repr = "";
             double mean_maxksimplices[] = new double[this.N + 1];
             for (int t = 1; t <= Times; t++) {
-//                System.out.println("iteration: "+t);
+                System.out.println("iteration: "+t);
                 if (type.contains("topdown")){
                     sc = new RandomSimplicialComplex(this.N, this.p);
                     sc.generate();
@@ -132,7 +144,8 @@ public class Analytics implements WriteHandler{
                         this.meanksimplices[i] += (double) hg.numOfkhyperedges[i] / Times;
                     }
                     meanruntime += (double)hg.runtime/Times;
-                    mean_maxksimplices[(hg.maxcardinality)] += (double)100/Times;
+                    System.out.println(hg.maxcardinality+"  maxcard");
+                    mean_maxksimplices[(hg.maxcardinality)] += ((double)1);
                 }
                 else if(type.contains("baseh")) {
                     hg = new BaselineRandomHypergraph(this.N,this.p);
@@ -141,27 +154,47 @@ public class Analytics implements WriteHandler{
                         this.meanksimplices[i] += (double) hg.numOfkhyperedges[i] / Times;
                     }
                     meanruntime += (double)hg.runtime/Times;
-                    mean_maxksimplices[(hg.maxcardinality)] += (double)100/Times;
+                    mean_maxksimplices[(hg.maxcardinality)] += (double)1;
                 }
                 else if(type.contains("arsc")) { // arsc
-                    System.out.println(this.type + "isarsc");
+                    System.out.println(this.type + "is arsc");
                     sc = new AssociatedRandSimplicialComplex(this.N, this.p);
                     sc.generate();
                     for (int i = 1; i <= this.N; i++) {
                         this.meanksimplices[i] += (double) sc.numOfkSimplices[i] / Times;
                     }
                     meanruntime += (double) sc.runtime / Times;
-                    mean_maxksimplices[(sc.maxcardinality)] += (double) 100 / Times;
+                    mean_maxksimplices[(sc.maxcardinality)] += (double) 1;
                 }
                 else if(type.contains("dynasc")) { // arsc
-                    System.out.println(this.type + "isarsc");
+                    System.out.println(this.type + "is dynasc");
                     sc = new DynamicprobRandSimpComplex(this.N, this.p);
                     sc.generate();
                     for (int i = 1; i <= this.N; i++) {
                         this.meanksimplices[i] += (double) sc.numOfkSimplices[i] / Times;
                     }
                     meanruntime += (double) sc.runtime / Times;
-                    mean_maxksimplices[(sc.maxcardinality)] += (double) 100 / Times;
+                    mean_maxksimplices[(sc.maxcardinality)] += (double) 1;
+                }
+                else if(type.contains("clique")) { // Clique complex
+//                    System.out.println(this.type + "is clique complex");
+                    sc = new RandCliqueComplex(this.N, this.p);
+                    sc.generate();
+                    for (int i = 1; i <= this.N; i++) {
+                        this.meanksimplices[i] += (double) sc.numOfkSimplices[i] / Times;
+                    }
+                    meanruntime += (double) sc.runtime / Times;
+                    mean_maxksimplices[(sc.maxcardinality)] += (double) 1;
+                }
+                else if(type.contains("neigh")) { // Clique complex
+//                    System.out.println(this.type + "is clique complex");
+                    sc = new RandNeighComplex(this.N, this.p);
+                    sc.generate();
+                    for (int i = 1; i <= this.N; i++) {
+                        this.meanksimplices[i] += (double) sc.numOfkSimplices[i] / Times;
+                    }
+                    meanruntime += (double) sc.runtime / Times;
+                    mean_maxksimplices[(sc.maxcardinality)] += (double) 1;
                 }
 
             }
