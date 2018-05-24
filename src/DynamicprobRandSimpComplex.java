@@ -16,8 +16,8 @@ public class DynamicprobRandSimpComplex extends RandomSimplicialComplex {
         container = new BaselineRandomHypergraph(N);
     }
 
-    float getprob(int sizeofhyperedge){
-        float denom = (float)Math.pow(2,CombinatoricsUtils.binomialCoefficient(sizeofhyperedge, sizeofhyperedge/2));
+    double getprob(int sizeofhyperedge){
+        double denom = Math.pow(2,CombinatoricsUtils.binomialCoefficient(sizeofhyperedge, sizeofhyperedge/2)) -1 ;
         return this.prob / denom;
     }
 
