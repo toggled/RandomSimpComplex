@@ -38,8 +38,8 @@ public class SpernerFamilyAnalytics extends Analytics {
             Double val;
 //            System.out.println(this.SpernerFamilySize);
 
-            if( (val = map.putIfAbsent(this.SpernerFamilySize,(double)100/T)) !=null ){
-                map.put(this.SpernerFamilySize,val + ((double)100/T));
+            if( (val = map.putIfAbsent(this.SpernerFamilySize,(double)1)) !=null ){
+                map.put(this.SpernerFamilySize,val + ((double)1));
             }
         }
 //        System.out.println(maptoString());
