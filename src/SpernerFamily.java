@@ -63,7 +63,12 @@ public class SpernerFamily extends HyperGraph{
          * when the set is already in the sperner family)
          */
 
-        if (this.maximalsets.contains(set)){
+        if (this.contains(set)){
+            return false;
+        }
+
+//      If this set is not maximal in "maximalsets".
+        if (!this.isMaximal(set)){
             return false;
         }
 
@@ -112,7 +117,7 @@ public class SpernerFamily extends HyperGraph{
          * when the set is not in the sperner family)
          */
 
-        if (!maximalsets.contains(set)){
+        if (!this.contains(set)){
             return false;
         }
 
@@ -156,6 +161,31 @@ public class SpernerFamily extends HyperGraph{
 
     }
 
+    protected boolean isSubset(BitSet a, BitSet b){
+        /*
+        returns True, if a is a subset of b,
+                False, otherwise
+         */
+        if(a.cardinality()>=b.cardinality()) return false; // a shouldn't be larger or equal in cardinality.
+        else{
+            BitSet a_copy = (BitSet) a.clone();
+            a_copy.andNot(b);
+            return a_copy.length() == 0;
+        }
+    }
+
+    boolean isMaximal(BitSet set){
+        /**
+         * Returns false if the "set" is a subset of some set in "maximalsets"
+         */
+        for (BitSet potentialsuperset:this.maximalsets ){
+            if(isSubset(set,potentialsuperset))
+                return false;
+        }
+        return true;
+    }
+
+
     public String toString(){
         /**
          * Returns human readable string representation of the sperner family, where sets are seperated by '/'
@@ -164,14 +194,31 @@ public class SpernerFamily extends HyperGraph{
         for(BitSet bs: this.maximalsets){
             stringrep+= (bitsettoString(bs)+"/");
         }
-        return stringrep.substring(0,stringrep.length()-1);
+        if (stringrep.length()>0)
+            return stringrep.substring(0,stringrep.length()-1);
+        else
+            return "Empty sperner family";
     }
 
     String toCryptoString(){
         /**
          * Returns a unique Hex String representation of this Sperner family.
          */
+        if (this.hexrepr.isEmpty()){
+            return "EmptySF";
+        }
         return this.hexrepr;
+    }
+
+
+    private boolean contains(BitSet set){
+        /**
+         * returns true if this sperner family contains the set, false otherwise
+         */
+        if (this.maximalsets.contains(set)){
+            return true;
+        }
+        return false;
     }
 
     private String getCryptorepr(String data){
