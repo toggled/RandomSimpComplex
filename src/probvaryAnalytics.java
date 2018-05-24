@@ -62,6 +62,7 @@ public class probvaryAnalytics extends Analytics{
 
             stringreprlist.add(Float.toString(this.p)+" "+this.tempformaxcard);
         }
+        System.out.println(stringreprlist);
     }
 
 
